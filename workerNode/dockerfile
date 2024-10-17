@@ -1,0 +1,24 @@
+FROM golang:1.23.1 AS BUILD
+
+WORKDIR /var/www/workerNode
+
+COPY workerNode .
+
+RUN go mod tidy
+
+# RUN go test ./...
+
+RUN go build -o workerNode .
+
+# ============================
+
+FROM debian:latest as PROD
+
+WORKDIR /var/www/workerNode
+
+COPY --from=BUILD --chown=www-data:www-data /var/www/workerNode/workerNode .
+RUN mkdir ./data
+
+EXPOSE 8080
+
+CMD ["/var/www/workerNode/workerNode"]

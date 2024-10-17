@@ -9,7 +9,7 @@ services:
         BROKER_ADDRESS  : "mosquitto"
         BROKER_PORT     : "1883"
         SOCKET_ADDR     : "master-node"
-        SOCKET_PORT     : "8082"
+        SOCKET_PORT     : "8081"
   master-node :
     build :
       context: ./masterNode/
@@ -18,9 +18,26 @@ services:
       - mosquitto:mosquitto
     environment:
       MQTT_BROKER_URI : "mosquitto:1883"
-      MQTT_CLIENT_ID : "123"
+      MQTT_CLIENT_ID : "master-node"
       MQTT_USERNAME : "masternode"
       MQTT_PASSWORD : "masternode"
+    ports :
+      - 8081:8081
+  worker-node:
+    build :
+        context: ./workerNode/
+        target : PROD
+    links:
+      - mosquitto:mosquitto
+      - master-node
+    environment:
+      MASTERNODE_URI : "master-node:8080"
+      BROKER_URI : "mosquitto:1883"
+      MQTT_CLIENT_ID : "worker-node"
+      MQTT_USERNAME : "viewer"
+      MQTT_PASSWORD : "zimzimlegoat"
+    volumes : 
+      - /var/www/workerNode/data
   mosquitto:
     image: eclipse-mosquitto
     ports:

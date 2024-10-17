@@ -4,3 +4,9 @@
 [submodule "masterNode/masterNode"]
 	path = masterNode/masterNode
 	url = https://github.com/maximezim/masterNode
+[submodule "workerNode/workerNode"]
+	path = workerNode/workerNode
+	url = https://github.com/maximezim/workerNode
+[submodule "frontend/streamfront"]
+	path = frontend/streamfront
+	url = https://github.com/maximezim/streamfront
