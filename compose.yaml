@@ -2,9 +2,32 @@ services:
   loadbalancer:
     build: 
       context : ./loadbalancer/
+    links :
+      - master-node:master-node
+      - mosquitto:mosquitto
     environment:
-        BROKER_ADDRESS  : ""
-        BROKER_PORT     : ""
-        SOCKET_ADDR     : ""
-        SOCKET_PORT     : ""
- 
+        BROKER_ADDRESS  : "mosquitto"
+        BROKER_PORT     : "1883"
+        SOCKET_ADDR     : "master-node"
+        SOCKET_PORT     : "8082"
+  master-node :
+    build :
+      context: ./masterNode/
+      target : PROD
+    links:
+      - mosquitto:mosquitto
+    environment:
+      MQTT_BROKER_URI : "mosquitto:1883"
+      MQTT_CLIENT_ID : "123"
+      MQTT_USERNAME : "masternode"
+      MQTT_PASSWORD : "masternode"
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/passwd:/mosquitto/passwd
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log 

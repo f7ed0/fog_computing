@@ -1,1 +1,3 @@
 loadbalancer/CPLEX.bin
+mosquitto/*/
+mosquitto/passwd
