@@ -1,4 +1,10 @@
 services:
+  front:
+    build:
+      context: ./frontend/
+    ports:
+      - 5173:5173
+  
   loadbalancer:
     build: 
       context : ./loadbalancer/
@@ -10,6 +16,7 @@ services:
         BROKER_PORT     : "1883"
         SOCKET_ADDR     : "master-node"
         SOCKET_PORT     : "8081"
+  
   master-node :
     build :
       context: ./masterNode/
@@ -23,6 +30,7 @@ services:
       MQTT_PASSWORD : "masternode"
     ports :
       - 8081:8081
+  
   worker-node:
     build :
         context: ./workerNode/
@@ -30,14 +38,17 @@ services:
     links:
       - mosquitto:mosquitto
       - master-node
+      - api
     environment:
       MASTERNODE_URI : "master-node:8080"
       BROKER_URI : "mosquitto:1883"
       MQTT_CLIENT_ID : "worker-node"
       MQTT_USERNAME : "viewer"
       MQTT_PASSWORD : "zimzimlegoat"
+      API_HOST : "http://api:8080"
     volumes : 
       - /var/www/workerNode/data
+  
   mosquitto:
     image: eclipse-mosquitto
     ports:
@@ -48,3 +59,28 @@ services:
       - ./mosquitto/passwd:/mosquitto/passwd
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log 
+
+  api:
+    build:
+      context : ./api/web-api 
+    ports:
+      - 8800:8080
+    links :
+      - db
+    environment:
+      DB_HOST : db
+      DB_DATABASE : CCSVideos
+      DB_USER : root
+      DB_PASS : connectorPassword123*
+      
+  
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: connectorPassword123*
+    volumes:
+      - /var/lib/mysql
+      - ./api/web-api/_init_.sql:/docker-entrypoint-initdb.d/_init_.sql
+    ports:
+      - "3306:3306"

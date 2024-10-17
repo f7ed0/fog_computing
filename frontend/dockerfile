@@ -7,9 +7,9 @@ WORKDIR /app/StreamFront
 RUN apt-get update && apt-get install -y git jq
 
 # Étape 4 : Cloner le dépôt GitHub dans le répertoire StreamFront
-RUN git clone https://github.com/maximezim/streamfront .
+COPY ./streamfront/ .
 
-COPY ./test.mp4 ./src/assets/video.mp4
+COPY ./video.mp4 ./src/assets/video.mp4
 
 # Étape 4 : Ajouter le script start au package.json
 RUN jq '.scripts.start = "vite"' package.json > tmp.json && mv tmp.json package.json
@@ -24,4 +24,4 @@ COPY . .
 EXPOSE 5173
 
 # Étape 9 : Démarrer l'application
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--host"]

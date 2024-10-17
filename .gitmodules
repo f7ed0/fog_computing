@@ -10,3 +10,6 @@
 [submodule "frontend/streamfront"]
 	path = frontend/streamfront
 	url = https://github.com/maximezim/streamfront
+[submodule "api/web-api"]
+	path = api/web-api
+	url = https://github.com/Miunn/mqtt-streaming-web-api
