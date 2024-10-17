@@ -1,0 +1,10 @@
+services:
+  loadbalancer:
+    build: 
+      context : ./loadbalancer/
+    environment:
+        BROKER_ADDRESS  : ""
+        BROKER_PORT     : ""
+        SOCKET_ADDR     : ""
+        SOCKET_PORT     : ""
+ 

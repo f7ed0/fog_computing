@@ -1,0 +1,31 @@
+FROM python:3.10.13-bookworm
+
+WORKDIR /var/www
+
+RUN mkdir /CPLEX
+
+COPY ./edge-packet-allocator/ ./edge-packet-allocator/
+
+COPY ./myresponse.properties ./myresponse.properties
+
+COPY ./CPLEX.bin ./CPLEX.bin
+
+RUN chmod u+x ./CPLEX.bin
+
+RUN ./CPLEX.bin -f ./myresponse.properties
+
+RUN pip install cplex
+RUN pip install -r ./edge-packet-allocator/requirements.txt 
+
+WORKDIR /CPLEX/python
+
+RUN python setup.py install
+
+ENV PYTHONPATH=/CPLEX/cplex/python/3.10/x86-64_linux
+ENV LD_LIBRARY_PATH=/CPLEX/cplex/bin/x86-64_linux:$LD_LIBRARY_PATH
+
+WORKDIR /var/www/edge-packet-allocator
+
+CMD ["python","."]
+
+

@@ -1,0 +1,3 @@
+[submodule "loadbalancer/edge-packet-allocator"]
+	path = loadbalancer/edge-packet-allocator
+	url = https://github.com/B3LIOTT/edge-packet-allocator
