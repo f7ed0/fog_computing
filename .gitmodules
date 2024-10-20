@@ -1,6 +1,7 @@
 [submodule "loadbalancer/edge-packet-allocator"]
 	path = loadbalancer/edge-packet-allocator
-	url = https://github.com/B3LIOTT/edge-packet-allocator
+  url = https://github.com/B3LIOTT/edge-packet-allocator
+  branch = without-cplex
 [submodule "masterNode/masterNode"]
 	path = masterNode/masterNode
 	url = https://github.com/maximezim/masterNode
