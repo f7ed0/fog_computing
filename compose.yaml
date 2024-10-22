@@ -28,6 +28,7 @@ services:
       MQTT_CLIENT_ID : "master-node"
       MQTT_USERNAME : "masternode"
       MQTT_PASSWORD : "masternode"
+      OTHER_EDGES : '[]'
     ports :
       - 8081:8081
   
