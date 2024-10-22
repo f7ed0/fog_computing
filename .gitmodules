@@ -5,6 +5,7 @@
 [submodule "masterNode/masterNode"]
 	path = masterNode/masterNode
 	url = https://github.com/maximezim/masterNode
+	branch = interconnect
 [submodule "workerNode/workerNode"]
 	path = workerNode/workerNode
 	url = https://github.com/maximezim/workerNode
