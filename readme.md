@@ -29,6 +29,18 @@ purpose of a proof of concept that will be later used for studies.
 
 ## Configuration
 
+The majority of the configuration is done through the docker
+compose file. It will be precised underneath if any touch in
+the code needs to be done to achieve a specific configuration
+
+### Default configuration
+
+You can use the default configuration if you want to run them
+project with only one domain. You can find this Configuration
+in the compose.yaml of the repository
+
+### Custom configuration
+
 ## Deployment
 
 ### Getting the repository
