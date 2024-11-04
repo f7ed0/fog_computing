@@ -49,7 +49,7 @@ This repository is using git submodules, so you need to pull
 them (if not already done)
 
 ```bash
-git submodules update --init
+git submodule update --init
 ```
 
 ### Deploying services using the scripts
