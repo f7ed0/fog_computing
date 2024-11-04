@@ -10,6 +10,23 @@ signature for packet integrity from scratch using MQTT as the main information v
 This project has no mean to be deployed in a production environment an serve the
 purpose of a proof of concept that will be later used for studies.
 
+## Infrastructure
+
+This repository is meant to deploy one fog with one master node and as many as worker nodes as wanted.
+
+Each component rely on the MQTT broker to cummunicate to others.
+The master node subscribe to every channel corresponding to `video/stream/*` (* as a wildcard) for video packets to save in the fog then dispatch these packets among the worker nodes.
+
+Attached to the worker nodes a loadbalancer pings them every 2 seconds to know their workload (cpu and memory usage) and publish a policy to the MQTT broker (which worker node should be used first) that the master node will use to send the incoming packets to the correct worker.
+
+When they receive a packet, worker nodes will check if it's a new video being saved and if it is they will send a POST request to the api in order to register this video in the database.
+The api is here to tell clients what are the videos registered on the fog.
+
+### Multi-fog infrastructures
+
+You can start multiple fog instances, master nodes will auto-connect between each other as if they were "special" worker nodes.
+Like that packets requests received by one master node will be recursively forwarded to all of the other connected master nodes.
+
 ## Stack
 
 - Golang
@@ -39,7 +56,7 @@ You can use the default configuration if you want to run them
 project with only one domain. You can find this Configuration
 in the compose.yaml of the repository
 
-### Custom configuration
+> All necessary environment variables are exported inside the compose.yaml file
 
 ## Deployment
 
@@ -74,3 +91,12 @@ is 3 (you need to edit the script if you want to change the value)
 If it is the first time you launch it, docker will need to pull and build
 images in order to work. This may take some time to unfold, but it is a
 œone-time task.
+
+## Video uploading
+
+As the uploading to the fog is not part of the infrastructure you will need a third-party script to publish packets to the MQTT broker as mentionned before. This script can be found [here](https://github.com/Miunn/mqtt-streaming-client).
+
+
+
+## Perspectives
+
