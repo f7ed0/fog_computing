@@ -96,7 +96,19 @@ images in order to work. This may take some time to unfold, but it is a
 
 As the uploading to the fog is not part of the infrastructure you will need a third-party script to publish packets to the MQTT broker as mentionned before. This script can be found [here](https://github.com/Miunn/mqtt-streaming-client).
 
+Edit the environment variables in the `.env` file according to your configuration. The structure is :
 
+```
+BROKER_URL="10.0.0.1"
+BROKER_PORT=1883
+BROKER_STREAMING_CLIENT_ID="go-streaming-client"
+BROKER_USERNAME="client"
+BROKER_PASSWORD="password"
+```
+
+Then you can use the script with :
+
+`./main video.mp4`
 
 ## Perspectives
 
