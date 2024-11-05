@@ -96,7 +96,7 @@ images in order to work. This may take some time to unfold, but it is a
 
 As the uploading to the fog is not part of the infrastructure you will need a third-party script to publish packets to the MQTT broker as mentionned before. This script can be found [here](https://github.com/Miunn/mqtt-streaming-client).
 
-Edit the environment variables in the `.env` file according to your configuration. The structure is :
+First, edit the environment variables in the `.env` file according to your configuration following this structure :
 
 ```
 BROKER_URL="10.0.0.1"
@@ -106,9 +106,12 @@ BROKER_USERNAME="client"
 BROKER_PASSWORD="password"
 ```
 
-Then you can use the script with :
-
-`./main video.mp4`
+Then you can use the script with : `./main <path-to-video-to-upload>`
 
 ## Perspectives
 
+**About the fog**\
+For now on, video is only uploaded to the fog the script is connected to. There is no replication or caching which means if a user request a video from a distant fog, all packets requests and responses must be forwarded. It may be preferable that, depending on the demand rate of the video, the video is replicated on closer nodes.
+
+**About the video player**\
+Currently, the video packets are appended to a javascript U8intArray that the player uses to display the decoded video but this array is never emptied so the browser can excessively grow in ram usage depending on the video length. When packets refer to an outdated parts of the video the should be cleaned up in order to free space.
